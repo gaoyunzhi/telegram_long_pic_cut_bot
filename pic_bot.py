@@ -35,8 +35,10 @@ def cut(update, context):
 	if not cuts:
 		return
 
-	group = [InputMediaPhoto(cuts[0], caption=cap, parse_mode='Markdown')] + \
-		[InputMediaPhoto(url) for url in cuts[1:]]
+	group = [InputMediaPhoto(open(cuts[0]), caption=cap, parse_mode='Markdown')] + \
+		[InputMediaPhoto(open(c)) for c in cuts[1:]]
+	for c in cuts:
+		os.system('rm %s' % c)		
 	tele.bot.send_media_group(msg.chat_id, group, timeout = 20*60)
 
 tele.dispatcher.add_handler(MessageHandler(Filters.document | Filters.photo, cut))
