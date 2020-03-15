@@ -1,5 +1,4 @@
 python-telegram-bot
-export_to_telegraph>=0.0.52
-html_telegraph_poster
+pic_cut>=0.0.2
 pyyaml
 telegram_util>=0.0.31
