@@ -15,7 +15,7 @@ def setup(arg = ''):
 		os.system(RUN_COMMAND[6:-2])
 	else:
 		os.system('touch nohup.out')
-		os.system('nohup python3 -u pic_cut.py &')
+		os.system('nohup python3 -u pic_bot.py &')
 		os.system(' tail -F nohup.out')
 
 if __name__ == '__main__':
