@@ -16,7 +16,7 @@ def setup(arg = ''):
 	else:
 		os.system('touch nohup.out')
 		os.system('nohup python3 -u pic_bot.py &')
-		os.system(' tail -F nohup.out')
+		os.system('tail -F nohup.out')
 
 if __name__ == '__main__':
 	if len(sys.argv) > 1:
