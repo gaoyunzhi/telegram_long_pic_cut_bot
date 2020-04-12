@@ -23,19 +23,14 @@ def cut(update, context):
 		return
 		
 	cap = msg.caption_markdown or msg.text_markdown or ''
-	if msg.document:
-		file = msg.document
-	if msg.photo:
-		file = msg.photo[-1]
+	file = msg.document or (msg.photo and msg.photo[-1])
 	if file:
 		file = file.get_file().download()
-	elif msg.text:
+	else:
 		try:
 			file = cached_url.get(msg.text, force_cache=True)
 		except:
 			return
-	else:
-		return
 	
 	cuts = list(pic_cut.cut(file))
 	os.system('rm %s' % file)
