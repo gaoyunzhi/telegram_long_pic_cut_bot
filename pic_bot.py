@@ -8,6 +8,7 @@ import yaml
 from telegram_util import log_on_fail
 from telegram import InputMediaPhoto
 import os
+import cached_url
 
 with open('CREDENTIALS') as f:
     CREDENTIALS = yaml.load(f, Loader=yaml.FullLoader)
@@ -26,9 +27,16 @@ def cut(update, context):
 		file = msg.document
 	if msg.photo:
 		file = msg.photo[-1]
-		cap = msg.caption_markdown
+	if file:
+		file = file.get_file().download()
+	elif msg.text:
+		try:
+			file = cached_url.get(msg.text, force_cache=True)
+		except:
+			return
+	else:
+		return
 	
-	file = file.get_file().download()
 	cuts = list(pic_cut.cut(file))
 	os.system('rm %s' % file)
 
@@ -41,7 +49,7 @@ def cut(update, context):
 		os.system('rm %s' % c)		
 	tele.bot.send_media_group(msg.chat_id, group, timeout = 20*60)
 
-tele.dispatcher.add_handler(MessageHandler(Filters.document | Filters.photo, cut))
+tele.dispatcher.add_handler(MessageHandler(Filters.all, cut))
 
 tele.start_polling()
 tele.idle()

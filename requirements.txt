@@ -1,4 +1,5 @@
 python-telegram-bot
-pic_cut>=0.0.2
+pic_cut
 pyyaml
-telegram_util>=0.0.31
+telegram_util
+cached_url
