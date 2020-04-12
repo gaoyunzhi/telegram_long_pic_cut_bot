@@ -30,7 +30,8 @@ def setup(arg = ''):
 	if arg.startswith('debug'):
 		os.system(RUN_COMMAND[6:-2])
 	else:
-		os.system(RUN_COMMAND)
+		os.system('touch nohup.out')
+		os.system(RUN_COMMAND + ' tail -F nohup.out')
 
 
 if __name__ == '__main__':
