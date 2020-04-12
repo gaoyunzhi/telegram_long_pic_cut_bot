@@ -26,14 +26,13 @@ def cut(update, context):
 	file = msg.document or (msg.photo and msg.photo[-1])
 	if file:
 		file = file.get_file().download()
+		cuts = list(pic_cut.cut(file))
+		os.system('rm %s' % file)
 	else:
 		try:
-			file = cached_url.get(msg.text, force_cache=True)
+			cuts = pic_cut.getCutImages([msg.text])
 		except:
 			return
-	
-	cuts = list(pic_cut.cut(file))
-	os.system('rm %s' % file)
 
 	if not cuts:
 		return
