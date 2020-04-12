@@ -10,12 +10,10 @@ def setup(arg = ''):
 	kill()
 	if arg == 'kill':
 		return
+	os.system('nohup python3 -u pic_bot.py &')
 
-	if arg.startswith('debug'):
-		os.system(RUN_COMMAND[6:-2])
-	else:
+	if not arg.startswith('notail'):
 		os.system('touch nohup.out')
-		os.system('nohup python3 -u pic_bot.py &')
 		os.system('tail -F nohup.out')
 
 if __name__ == '__main__':
