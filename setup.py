@@ -18,7 +18,7 @@ def setup(arg = ''):
 
 	os.system('nohup %s &' % command)
 
-	if arg != 'notail':
+	if 'notail' not in sys.argv:
 		os.system('touch nohup.out')
 		os.system('tail -F nohup.out')
 
