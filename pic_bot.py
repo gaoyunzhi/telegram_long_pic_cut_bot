@@ -34,7 +34,7 @@ def cut(update, context):
 	except:
 		return
 	if len(r) == 1 and file:
-		r.delete()
+		r[0].delete()
 	tmp.delete()
 
 tele.dispatcher.add_handler(MessageHandler(Filters.all, cut))
