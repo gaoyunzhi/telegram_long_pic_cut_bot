@@ -5,7 +5,6 @@ from telegram.ext import Updater, MessageHandler, Filters
 
 import yaml
 from telegram_util import log_on_fail, AlbumResult
-import os
 import album_sender
 
 with open('CREDENTIALS') as f:
@@ -21,7 +20,7 @@ def cut(update, context):
 		return
 
 	file = msg.document or (msg.photo and msg.photo[-1])
-	file_path = file.get_file().file_path() or msg.text
+	file_path = (file and file.get_file().file_path) or msg.text
 	if not file_path:
 		return
 
