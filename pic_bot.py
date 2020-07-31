@@ -3,12 +3,10 @@
 
 from telegram.ext import Updater, MessageHandler, Filters
 
-import pic_cut
 import yaml
-from telegram_util import log_on_fail
-from telegram import InputMediaPhoto
+from telegram_util import log_on_fail, AlbumResult
 import os
-import cached_url
+import album_sender
 
 with open('CREDENTIALS') as f:
     CREDENTIALS = yaml.load(f, Loader=yaml.FullLoader)
@@ -21,27 +19,17 @@ def cut(update, context):
 	msg = update.effective_message
 	if msg.chat_id == debug_group.id:
 		return
-		
-	cap = msg.caption_markdown or msg.text_markdown or ''
-	file = msg.document or (msg.photo and msg.photo[-1])
-	if file:
-		file = file.get_file().download()
-		cuts = list(pic_cut.cut(file))
-		os.system('rm %s' % file)
-	else:
-		try:
-			cuts = pic_cut.getCutImages([msg.text])
-		except:
-			return
 
-	if not cuts:
+	file = msg.document or (msg.photo and msg.photo[-1])
+	file_path = file.get_file().file_path() or msg.text
+	if not file_path:
 		return
 
-	group = [InputMediaPhoto(open(cuts[0], 'rb'), caption=cap, parse_mode='Markdown')] + \
-		[InputMediaPhoto(open(c, 'rb')) for c in cuts[1:]]
-	for c in cuts:
-		os.system('rm %s' % c)		
-	tele.bot.send_media_group(msg.chat_id, group, timeout = 20*60)
+	result = AlbumResult()
+	result.cap = msg.caption_markdown or msg.text_markdown or ''
+	result.imgs = [file_path]
+
+	album_sender.send_v2(msg.chat, result, send_all=True)
 
 tele.dispatcher.add_handler(MessageHandler(Filters.all, cut))
 
