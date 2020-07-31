@@ -1,5 +1,4 @@
 python-telegram-bot
-pic_cut
 pyyaml
 telegram_util
 cached_url
