@@ -29,7 +29,10 @@ def cut(update, context):
 	result.imgs = [file_path]
 
 	tmp = msg.reply_text('pic sending')
-	r = album_sender.send_v2(msg.chat, result, send_all=True, sleep=5)
+	try:
+		r = album_sender.send_v2(msg.chat, result, send_all=True, time_sleep=5)
+	except:
+		return
 	if len(r) == 1 and file:
 		r.delete()
 	tmp.delete()
