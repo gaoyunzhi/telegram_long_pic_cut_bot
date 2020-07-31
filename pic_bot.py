@@ -21,7 +21,7 @@ def cut(update, context):
 
 	file = msg.document or (msg.photo and msg.photo[-1])
 	file_path = (file and file.get_file().file_path) or msg.text
-	if not file_path:
+	if not file_path or 'http' not in file_path:
 		return
 
 	result = AlbumResult()
