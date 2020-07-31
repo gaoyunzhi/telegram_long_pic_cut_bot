@@ -28,14 +28,12 @@ def cut(update, context):
 	result.cap = msg.caption_markdown or msg.text_markdown or ''
 	result.imgs = [file_path]
 
-	tmp = msg.reply_text('pic sending')
 	try:
 		r = album_sender.send_v2(msg.chat, result, send_all=True, time_sleep=5)
 	except:
 		return
 	if len(r) == 1 and file:
 		r[0].delete()
-	tmp.delete()
 
 tele.dispatcher.add_handler(MessageHandler(Filters.all, cut))
 
