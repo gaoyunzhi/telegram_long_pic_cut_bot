@@ -16,7 +16,7 @@ debug_group = tele.bot.get_chat(-1001198682178)
 @log_on_fail(debug_group)
 def cut(update, context):
 	msg = update.effective_message
-	if msg.chat_id == debug_group.id:
+	if msg.chat_id == debug_group.id or msg.media_group_id:
 		return
 
 	file = msg.document or (msg.photo and msg.photo[-1])
