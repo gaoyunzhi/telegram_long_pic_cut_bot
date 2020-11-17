@@ -7,9 +7,8 @@ import yaml
 from telegram_util import log_on_fail, AlbumResult
 import album_sender
 
-with open('CREDENTIALS') as f:
-    CREDENTIALS = yaml.load(f, Loader=yaml.FullLoader)
-tele = Updater(CREDENTIALS['bot_token'], use_context=True)
+with open('token') as f:
+    tele = Updater(f.read().strip(), use_context=True)
 
 debug_group = tele.bot.get_chat(-1001198682178)
 
